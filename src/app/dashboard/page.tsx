@@ -19,7 +19,7 @@ export default async function DashboardPage() {
     .order('created_at', { ascending: false });
 
   const activeInquiries = inquiries?.filter(i => i.status !== 'confirmed' && i.status !== 'declined').length || 0;
-  const confirmedEvents = inquiries?.filter(i => i.status === 'confirmed').length || 0;
+  const confirmedInquiries = inquiries?.filter(i => i.status === 'confirmed').length || 0;
   const pendingProposals = inquiries?.filter(i => i.status === 'proposal_sent').length || 0;
 
   return (
@@ -51,7 +51,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 relative z-10">
         {[
           { label: "Active Inquiries", value: activeInquiries, icon: "hourglass_empty" },
-          { label: "Confirmed Events", value: confirmedEvents, icon: "verified" },
+          { label: "Confirmed Inquiries", value: confirmedInquiries, icon: "verified" },
           { label: "Pending Proposals", value: pendingProposals, icon: "description" }
         ].map((stat, idx) => (
           <Card key={idx} className="bg-surface/30 border-white/5 backdrop-blur-2xl p-10 rounded-none hover:border-primary/20 transition-all duration-700 group">

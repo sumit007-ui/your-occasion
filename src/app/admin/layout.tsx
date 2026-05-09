@@ -28,8 +28,9 @@ export default async function AdminLayout({
   }
 
   const navItems = [
-    { label: "Executive Desk", href: "/admin", icon: "dashboard_customize" },
-    { label: "Lead Pipeline", href: "/admin/leads", icon: "rebase_edit" },
+    { label: "Dashboard", href: "/admin", icon: "dashboard_customize" },
+    { label: "Inquiries", href: "/admin/inquiries", icon: "mail" },
+    { label: "Users", href: "/admin/users", icon: "group" },
   ];
 
   return (
@@ -39,7 +40,7 @@ export default async function AdminLayout({
         <div className="p-8 border-b border-white/5">
           <Link href="/" className="group inline-block">
             <span className="text-primary text-[10px] uppercase tracking-[0.4em] font-bold block mb-1">Your Occasion</span>
-            <span className="font-display text-2xl text-white italic group-hover:text-primary transition-colors">Executive Hub</span>
+            <span className="font-display text-2xl text-white italic group-hover:text-primary transition-colors">Admin Hub</span>
           </Link>
         </div>
 
@@ -62,7 +63,7 @@ export default async function AdminLayout({
               <span className="material-symbols-outlined text-primary text-lg font-light">account_circle</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-white text-[10px] font-bold tracking-widest uppercase truncate max-w-[140px]">Admin Office</span>
+              <span className="text-white text-[10px] font-bold tracking-widest uppercase truncate max-w-[140px]">Admin</span>
               <span className="text-on-surface-variant text-[8px] tracking-tight uppercase truncate max-w-[140px]">{user.email}</span>
             </div>
           </div>
@@ -74,7 +75,7 @@ export default async function AdminLayout({
           }}>
             <button className="w-full flex items-center gap-3 px-6 py-3 border border-white/10 text-[10px] uppercase tracking-[0.3em] text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all group">
               <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">logout</span>
-              Exit Desk
+              Logout
             </button>
           </form>
         </div>

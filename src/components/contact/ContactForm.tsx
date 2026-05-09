@@ -40,7 +40,7 @@ export function ContactForm() {
       return;
     }
 
-    toast.success("Your message has been dispatched to the Atelier.");
+    toast.success("Your message has been sent to our team.");
     setFormData({ name: "", email: "", subject: "", location: "", message: "" });
   };
 
@@ -48,7 +48,7 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-3">
-          <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Identity</label>
+          <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Name</label>
           <input 
             type="text" 
             required
@@ -59,7 +59,7 @@ export function ContactForm() {
           />
         </div>
         <div className="space-y-3">
-          <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Coordinates</label>
+          <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Email</label>
           <input 
             type="email" 
             required
@@ -78,7 +78,7 @@ export function ContactForm() {
               required
               value={formData.subject}
               onChange={(e) => setFormData({...formData, subject: e.target.value})}
-              placeholder="NATURE OF INQUIRY" 
+              placeholder="SUBJECT" 
               className="w-full bg-white/5 border border-white/10 px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-white focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20" 
             />
         </div>
@@ -111,7 +111,7 @@ export function ContactForm() {
               required
               value={formData.location}
               onChange={(e) => setFormData({...formData, location: e.target.value})}
-              placeholder="EVENT LOCATION" 
+              placeholder="CITY / AREA" 
               className="w-full bg-white/5 border border-white/10 px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-white focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20" 
             />
         </div>
@@ -132,7 +132,7 @@ export function ContactForm() {
         disabled={loading}
         className="w-full py-5 bg-white text-black text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-primary transition-all duration-500 disabled:opacity-50"
       >
-        {loading ? "Dispatching..." : "Dispatch Inquiry"}
+        {loading ? "Sending..." : "Send Message"}
       </button>
     </form>
   );

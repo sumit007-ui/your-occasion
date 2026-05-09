@@ -18,8 +18,6 @@ export function TopNavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  if (pathname?.startsWith("/admin")) return null;
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -34,6 +32,8 @@ export function TopNavBar() {
       document.body.style.overflow = "unset";
     }
   }, [isOpen]);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <>

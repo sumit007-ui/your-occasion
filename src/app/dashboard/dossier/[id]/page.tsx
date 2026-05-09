@@ -124,7 +124,7 @@ export default async function DossierDetailPage({ params }: { params: { id: stri
              <h5 className="text-white text-[10px] uppercase tracking-widest font-bold mb-4">Current Estimates</h5>
              <div className="flex justify-between items-end">
                 <span className="text-on-surface-variant text-[8px] uppercase tracking-widest">Projected Budget</span>
-                <span className="text-white font-display text-2xl">£--</span>
+                <span className="text-white font-display text-2xl">₹--</span>
              </div>
              <p className="mt-4 text-[8px] text-primary uppercase tracking-widest font-bold italic">Awaiting Proposal Confirmation</p>
           </div>

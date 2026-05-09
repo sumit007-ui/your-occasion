@@ -9,9 +9,9 @@ import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 
 const steps = [
-  { id: "personal", title: "Personal Details" },
-  { id: "event", title: "Event Particulars" },
-  { id: "vision", title: "The Vision" },
+  { id: "personal", title: "Your Info" },
+  { id: "event", title: "Event Details" },
+  { id: "vision", title: "Your Idea" },
 ];
 
 export function BookingFlow() {
@@ -156,7 +156,7 @@ export function BookingFlow() {
                 className="space-y-6"
               >
                 <div className="space-y-2">
-                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Event Category</Label>
+                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Event Type</Label>
                   <Input 
                     placeholder="e.g. Matrimonial, Corporate, Private Dining"
                     value={formData.eventType}
@@ -199,7 +199,7 @@ export function BookingFlow() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Anticipated Date</Label>
+                    <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Event Date</Label>
                     <Input 
                       type="date"
                       value={formData.date}
@@ -233,9 +233,9 @@ export function BookingFlow() {
                 className="space-y-6"
               >
                 <div className="space-y-2">
-                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Investment Range</Label>
+                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Budget</Label>
                   <Input 
-                    placeholder="e.g. $50,000 - $100,000"
+                    placeholder="e.g. ₹50,000 - ₹1,00,000"
                     value={formData.budget}
                     onChange={(e) => setFormData({...formData, budget: e.target.value})}
                     required
@@ -243,7 +243,7 @@ export function BookingFlow() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">The Vision</Label>
+                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Your Idea</Label>
                   <textarea 
                     placeholder="Describe the atmosphere, aesthetics, and expectations for your occasion..."
                     value={formData.vision}
@@ -270,7 +270,7 @@ export function BookingFlow() {
             type="submit"
             className="bg-primary text-on-primary hover:bg-primary/90 rounded-none px-8 text-xs uppercase tracking-widest font-medium transition-all duration-300"
           >
-            {currentStep === steps.length - 1 ? "Submit Inquiry" : "Continue"}
+            {currentStep === steps.length - 1 ? "Submit" : "Continue"}
           </Button>
         </div>
       </form>

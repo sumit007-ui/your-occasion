@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { format } from "date-fns";
 import { StatusBadge } from "@/components/admin/StatusBadge";
+import { DeleteInquiryButton } from "@/components/admin/DeleteInquiryButton";
 
 interface Inquiry {
   id: string;
@@ -62,7 +63,7 @@ export default function AdminDashboard() {
       color: "from-blue-500/20 to-cyan-500/20"
     },
     {
-      label: "Urgent Leads",
+      label: "Urgent Inquiries",
       value: inquiries.filter(i => 
         i.status === 'pending' && 
         new Date().getTime() - new Date(i.created_at).getTime() > 24 * 60 * 60 * 1000
@@ -72,7 +73,7 @@ export default function AdminDashboard() {
       color: "from-red-500/20 to-orange-500/20"
     },
     {
-      label: "Confirmed Events",
+      label: "Confirmed Inquiries",
       value: inquiries.filter(i => i.status === 'confirmed').length,
       icon: Calendar,
       trend: "Current Pipeline",
@@ -99,17 +100,17 @@ export default function AdminDashboard() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
           <p className="text-[10px] font-bold text-primary uppercase tracking-[0.5em]">
-            Central Operations Portfolio
+            Overview
           </p>
           <h1 className="text-5xl md:text-6xl font-display text-white italic tracking-tight">
-            Executive Desk
+            Dashboard
           </h1>
         </div>
         <div className="flex items-center gap-4">
           <div className="px-5 py-2.5 bg-white/[0.03] border border-white/10 rounded-none flex items-center gap-3 backdrop-blur-xl">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em]">
-              Real-time Database Sync: Active
+              Live Sync Active
             </span>
           </div>
         </div>
@@ -166,20 +167,20 @@ export default function AdminDashboard() {
                     </div>
                     <div>
                       <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-1 group-hover:text-primary transition-colors">
-                        SLA Breach: {lead.full_name}
+                        Pending: {lead.full_name}
                       </h4>
                       <p className="text-[10px] text-on-surface-variant tracking-wide leading-relaxed">
                         Inquiry received on {format(new Date(lead.created_at), 'MMM d')} has been pending for over 24 hours.
                       </p>
                       <div className="flex items-center gap-4 mt-4">
                         <Link 
-                          href="/admin/leads"
+                          href="/admin/inquiries"
                           className="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/50 font-bold hover:text-primary transition-colors"
                         >
-                          Details <ArrowRight className="w-3 h-3" />
+                          View Details <ArrowRight className="w-3 h-3" />
                         </Link>
                         <StatusBadge 
-                          leadId={lead.id} 
+                          inquiryId={lead.id} 
                           initialStatus={lead.status} 
                           onStatusUpdate={fetchDashboardData}
                         />
@@ -191,7 +192,7 @@ export default function AdminDashboard() {
             ) : (
               <div className="p-12 bg-surface/20 border border-dashed border-white/10 text-center">
                 <TrendingUp className="w-8 h-8 text-emerald-500/30 mx-auto mb-4" />
-                <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">All leads are current</p>
+                <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">All inquiries are current</p>
               </div>
             )}
           </div>
@@ -200,10 +201,10 @@ export default function AdminDashboard() {
         {/* Recent Pipeline Column */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center gap-4">
-            <h2 className="font-display text-2xl text-white italic">Recent Activity</h2>
+            <h2 className="font-display text-2xl text-white italic">Recent Inquiries</h2>
             <div className="h-[1px] flex-grow bg-white/5" />
-            <Link href="/admin/leads" className="text-[9px] uppercase tracking-[0.2em] text-primary hover:text-white transition-colors font-bold">
-              View Database
+            <Link href="/admin/inquiries" className="text-[9px] uppercase tracking-[0.2em] text-primary hover:text-white transition-colors font-bold">
+              View All
             </Link>
           </div>
 
@@ -224,10 +225,11 @@ export default function AdminDashboard() {
                           {inquiry.full_name}
                         </h4>
                         <StatusBadge 
-                          leadId={inquiry.id} 
+                          inquiryId={inquiry.id} 
                           initialStatus={inquiry.status} 
                           onStatusUpdate={fetchDashboardData}
                         />
+                        <DeleteInquiryButton inquiryId={inquiry.id} onDelete={fetchDashboardData} />
                       </div>
                       <div className="flex items-center gap-2 text-[10px] text-on-surface-variant tracking-wide italic opacity-70">
                         <span className="line-clamp-1">

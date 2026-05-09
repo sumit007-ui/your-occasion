@@ -5,12 +5,12 @@ import { toast } from "sonner";
 import { Check, Clock } from "lucide-react";
 
 interface StatusBadgeProps {
-  leadId: string;
+  inquiryId: string;
   initialStatus: string;
   onStatusUpdate?: () => void;
 }
 
-export function StatusBadge({ leadId, initialStatus, onStatusUpdate }: StatusBadgeProps) {
+export function StatusBadge({ inquiryId, initialStatus, onStatusUpdate }: StatusBadgeProps) {
   const [status, setStatus] = useState(initialStatus);
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
@@ -26,7 +26,7 @@ export function StatusBadge({ leadId, initialStatus, onStatusUpdate }: StatusBad
       const { error } = await supabase
         .from("inquiries")
         .update({ status: newStatus })
-        .eq("id", leadId);
+        .eq("id", inquiryId);
 
       if (error) throw error;
 
