@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen pt-32 pb-20 px-8 md:px-20 max-w-[1440px] mx-auto overflow-hidden">
@@ -9,8 +11,7 @@ export default function AboutPage() {
           </h1>
           <p className="text-on-surface-variant font-light text-lg leading-relaxed max-w-lg mb-12 relative">
             Since our inception, Your Occasion has been dedicated to the pursuit of perfection. 
-            We don't just plan events; we architect legacies. Every detail is a testament 
-            to our commitment to the art of celebration.
+            We don't just plan events; we architect legacies. Our expertise is rooted in the grand tradition of Indian hospitality, elevated by global luxury standards.
           </p>
           <div className="flex gap-12 relative">
             <div>
@@ -24,15 +25,18 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="relative">
-          <div className="aspect-[4/5] bg-surface-container-low border border-white/5 overflow-hidden group">
-            <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-50" />
-            <img 
-              src="/images/heritage.png" 
-              alt="Heritage" 
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale hover:grayscale-0"
+          <div className="aspect-[4/5] bg-surface-container-low border border-white/5 overflow-hidden group relative">
+            <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-50 z-10 pointer-events-none" />
+            <Image 
+              src="/images/heritage_about.png" 
+              alt="Heritage Architecture" 
+              fill
+              priority
+              className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
-          <div className="absolute -bottom-12 -right-12 w-56 h-56 border border-primary/20 backdrop-blur-3xl hidden md:flex items-center justify-center p-8 text-center group">
+          <div className="absolute -bottom-12 -right-12 w-56 h-56 border border-primary/20 backdrop-blur-3xl hidden md:flex items-center justify-center p-8 text-center group z-20">
             <div className="absolute inset-2 border border-primary/10" />
             <div className="relative">
               <span className="block font-display text-primary text-xl italic mb-1">Since</span>
@@ -103,14 +107,16 @@ export default function AboutPage() {
 
           <div className="relative group">
             <div className="aspect-[4/3] bg-surface-container border border-white/10 relative overflow-hidden shadow-2xl">
-              <img 
+              <Image 
                 src="/images/lake_palace.png" 
-                alt="Global Events" 
-                className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
+                alt="Global Events Presence" 
+                fill
+                className="object-cover transition-transform duration-[2s] group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 40vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60 z-10 pointer-events-none" />
             </div>
-            <div className="absolute -bottom-8 -left-8 bg-background/80 border border-white/10 p-8 backdrop-blur-2xl">
+            <div className="absolute -bottom-8 -left-8 bg-background/80 border border-white/10 p-8 backdrop-blur-2xl z-20">
                <span className="material-symbols-outlined text-primary text-4xl mb-3">public</span>
                <p className="text-[11px] uppercase tracking-[0.3em] text-white font-bold">24/7 Royal Concierge</p>
                <p className="text-[9px] text-on-surface-variant mt-1">International Support Network</p>

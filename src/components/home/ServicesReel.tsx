@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 const services = [
@@ -65,10 +66,12 @@ export function ServicesReel() {
             >
               <div className="relative h-[600px] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10" />
-                <img 
+                <Image 
                   src={service.image} 
                   alt={service.title}
-                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
                 />
               </div>
               <div className="absolute bottom-0 left-0 p-8 z-20 w-full bg-gradient-to-t from-black/80 to-transparent">

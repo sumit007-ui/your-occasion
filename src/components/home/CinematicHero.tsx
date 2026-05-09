@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 export function CinematicHero() {
@@ -27,10 +28,12 @@ export function CinematicHero() {
       >
         <div className="absolute inset-0 bg-background/40 z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-        {/* Placeholder for high-res luxury image */}
-        <div 
-          className="w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/lake_palace.png')" }}
+        <Image 
+          src="/images/lake_palace.png"
+          alt="Lake Palace Venue"
+          fill
+          priority
+          className="object-cover"
         />
       </motion.div>
 
