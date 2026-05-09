@@ -10,9 +10,9 @@ const statVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] as any },
   }),
-};
+} as any;
 
 export function HeritageTeaser() {
   return (

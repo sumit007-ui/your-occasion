@@ -36,7 +36,7 @@ export function UpdatePasswordForm() {
   return (
     <form onSubmit={handleUpdate} className="space-y-8">
       <div className="space-y-3">
-        <Label htmlFor="password" name="password-label" id="password-label" className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant/60 font-medium">New Password</Label>
+        <Label htmlFor="password" id="password-label" className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant/60 font-medium">New Password</Label>
         <Input
           id="password"
           type="password"

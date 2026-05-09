@@ -72,7 +72,7 @@ export function LoginForm() {
       <div className="space-y-3">
         <div className="flex justify-between items-center">
           <Label htmlFor="password" className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant/60 font-medium">Password</Label>
-          <Link href="/reset-password" name="forgot-password" id="forgot-password" className="text-[10px] uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-300">
+          <Link href="/reset-password" id="forgot-password" className="text-[10px] uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-300">
             Forgot?
           </Link>
         </div>
