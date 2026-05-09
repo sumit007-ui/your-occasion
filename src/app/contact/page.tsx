@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -44,29 +45,7 @@ export default function ContactPage() {
 
         <div className="md:w-1/2 w-full">
           <Card className="bg-surface/30 border-white/5 backdrop-blur-2xl p-12 rounded-none relative overflow-hidden">
-             <div className="relative z-10 space-y-8">
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Identity</label>
-                    <input type="text" placeholder="FULL NAME" className="w-full bg-white/5 border border-white/10 px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-white focus:outline-none focus:border-primary/50 transition-all" />
-                  </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Coordinates</label>
-                    <input type="email" placeholder="EMAIL ADDRESS" className="w-full bg-white/5 border border-white/10 px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-white focus:outline-none focus:border-primary/50 transition-all" />
-                  </div>
-                </div>
-                <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Subject</label>
-                    <input type="text" placeholder="NATURE OF INQUIRY" className="w-full bg-white/5 border border-white/10 px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-white focus:outline-none focus:border-primary/50 transition-all" />
-                </div>
-                <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-bold ml-1">Message</label>
-                    <textarea rows={5} placeholder="YOUR MESSAGE..." className="w-full bg-white/5 border border-white/10 px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-white focus:outline-none focus:border-primary/50 transition-all resize-none"></textarea>
-                </div>
-                <button className="w-full py-5 bg-white text-black text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-primary transition-all duration-500">
-                   Dispatch Inquiry
-                </button>
-             </div>
+             <ContactForm />
              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
           </Card>
         </div>

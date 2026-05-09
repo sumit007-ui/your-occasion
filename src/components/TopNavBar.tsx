@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Curations", href: "/services" },
@@ -13,8 +14,11 @@ const navLinks = [
 ];
 
 export function TopNavBar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);

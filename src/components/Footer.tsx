@@ -3,17 +3,30 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { createClient } from "@/utils/supabase/client";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  if (pathname?.startsWith("/admin")) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      setSubscribed(true);
-      setEmail("");
-      // In a real app, you'd send this to your database
+      const supabase = createClient();
+      const { error } = await supabase.from('inquiries').insert({
+        email: email,
+        event_type: 'Newsletter Subscription',
+        status: 'pending',
+      });
+
+      if (!error) {
+        setSubscribed(true);
+        setEmail("");
+      }
     }
   };
 

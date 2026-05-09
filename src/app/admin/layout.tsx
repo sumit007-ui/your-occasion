@@ -30,9 +30,6 @@ export default async function AdminLayout({
   const navItems = [
     { label: "Executive Desk", href: "/admin", icon: "dashboard_customize" },
     { label: "Lead Pipeline", href: "/admin/leads", icon: "rebase_edit" },
-    { label: "Active Events", href: "/admin/bookings", icon: "event_seat" },
-    { label: "Artisan Network", href: "/admin/artisans", icon: "diamond" },
-    { label: "Financial Records", href: "/admin/finance", icon: "payments" },
   ];
 
   return (

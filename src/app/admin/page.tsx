@@ -1,154 +1,263 @@
-import { createClient } from "@/utils/supabase/server";
-import { Card } from "@/components/ui/card";
+"use client";
+
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { 
+  Users, 
+  Clock, 
+  Calendar, 
+  ArrowRight, 
+  AlertCircle,
+  MessageSquare,
+  TrendingUp,
+  History
+} from "lucide-react";
 import Link from "next/link";
+import { format } from "date-fns";
+import { StatusBadge } from "@/components/admin/StatusBadge";
 
-export default async function AdminDashboard() {
-  const supabase = await createClient();
+interface Inquiry {
+  id: string;
+  full_name: string;
+  email: string;
+  event_type: string;
+  status: string;
+  created_at: string;
+  location: string;
+  vision: string;
+}
 
-  // Fetch all inquiries
-  const { data: allInquiries } = await supabase
-    .from('inquiries')
-    .select('*')
-    .order('created_at', { ascending: false });
+export default function AdminDashboard() {
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const totalLeads = allInquiries?.length || 0;
-  const pendingLeads = allInquiries?.filter(i => i.status === 'pending').length || 0;
-  const activeEvents = allInquiries?.filter(i => i.status === 'confirmed').length || 0;
-  const revenuePotential = allInquiries?.length ? allInquiries.length * 25000 : 850000; // Placeholder
+  const supabase = createClient();
 
-  // If no real data, use some high-end demo leads to fill the space
-  const displayLeads = allInquiries?.length ? allInquiries.slice(0, 5) : [
-    { id: '1', full_name: 'Lady Alexandra', event_type: 'Estate Wedding', created_at: new Date().toISOString(), status: 'pending' },
-    { id: '2', full_name: 'Bentley Motors', event_type: 'Launch Gala', created_at: new Date().toISOString(), status: 'confirmed' },
-    { id: '3', full_name: 'Julian Sterling', event_type: 'Private Dining', created_at: new Date().toISOString(), status: 'in_review' },
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  async function fetchDashboardData() {
+    try {
+      const { data, error } = await supabase
+        .from("inquiries")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setInquiries(data || []);
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const stats = [
+    {
+      label: "Total Inquiries",
+      value: inquiries.length,
+      icon: Users,
+      trend: "All-time reach",
+      color: "from-blue-500/20 to-cyan-500/20"
+    },
+    {
+      label: "Urgent Leads",
+      value: inquiries.filter(i => 
+        i.status === 'pending' && 
+        new Date().getTime() - new Date(i.created_at).getTime() > 24 * 60 * 60 * 1000
+      ).length,
+      icon: AlertCircle,
+      trend: "Pending > 24h",
+      color: "from-red-500/20 to-orange-500/20"
+    },
+    {
+      label: "Confirmed Events",
+      value: inquiries.filter(i => i.status === 'confirmed').length,
+      icon: Calendar,
+      trend: "Current Pipeline",
+      color: "from-emerald-500/20 to-teal-500/20"
+    }
   ];
 
+  const staleLeads = inquiries.filter(i => 
+    i.status === 'pending' && 
+    (new Date().getTime() - new Date(i.created_at).getTime()) > 24 * 60 * 60 * 1000
+  );
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-12 h-12 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-16 animate-in fade-in duration-1000">
+    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-        <div>
-          <span className="text-primary text-[10px] uppercase tracking-[0.5em] font-bold mb-4 block">System Status: Secure & Optimal</span>
-          <h1 className="font-display text-6xl text-white italic">Executive Desk</h1>
-        </div>
-        <div className="text-right pb-2">
-          <p className="text-on-surface-variant font-light text-xs tracking-[0.2em] uppercase">
-            {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="space-y-2">
+          <p className="text-[10px] font-bold text-primary uppercase tracking-[0.5em]">
+            Central Operations Portfolio
           </p>
+          <h1 className="text-5xl md:text-6xl font-display text-white italic tracking-tight">
+            Executive Desk
+          </h1>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="px-5 py-2.5 bg-white/[0.03] border border-white/10 rounded-none flex items-center gap-3 backdrop-blur-xl">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em]">
+              Real-time Database Sync: Active
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* High-Level Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {[
-          { label: "Total Inquiries", value: totalLeads || 42, icon: "analytics", trend: "+12%" },
-          { label: "Urgent Leads", value: pendingLeads || 8, icon: "priority_high", trend: "Action Required" },
-          { label: "Active Events", value: activeEvents || 12, icon: "event_available", trend: "On Schedule" },
-          { label: "Revenue Est.", value: `£${(revenuePotential / 1000).toFixed(0)}k`, icon: "payments", trend: "Projected" }
-        ].map((stat, idx) => (
-          <Card key={idx} className="bg-surface/30 border-white/5 backdrop-blur-md p-8 rounded-none group hover:border-primary/20 transition-all duration-500 relative overflow-hidden">
-            <div className="absolute -right-2 -top-2 material-symbols-outlined text-6xl text-white/[0.02] group-hover:text-primary/[0.05] transition-colors">{stat.icon}</div>
-            <div className="flex justify-between items-start mb-6 relative z-10">
-              <span className="material-symbols-outlined text-primary/40 text-2xl group-hover:text-primary transition-colors">{stat.icon}</span>
-              <span className="text-[8px] tracking-[0.2em] text-primary/60 uppercase font-bold">{stat.trend}</span>
+      {/* Primary Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {stats.map((stat, idx) => (
+          <div 
+            key={idx}
+            className="relative group overflow-hidden bg-surface/30 border border-white/5 p-8 rounded-none backdrop-blur-md transition-all duration-500 hover:border-primary/20"
+          >
+            <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+            
+            <div className="relative flex justify-between items-start mb-8">
+              <div className="p-3 bg-white/5 rounded-none border border-white/10 group-hover:border-primary/30 transition-colors">
+                <stat.icon className="w-6 h-6 text-primary/70 group-hover:text-primary transition-colors" />
+              </div>
+              <span className="text-[9px] text-white/40 font-bold uppercase tracking-[0.2em]">
+                {stat.trend}
+              </span>
             </div>
-            <div className="relative z-10">
-              <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.3em] mb-2">{stat.label}</p>
-              <p className="font-display text-4xl text-white italic">{stat.value}</p>
+            
+            <div className="relative">
+              <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] mb-3">
+                {stat.label}
+              </h3>
+              <p className="text-5xl font-display text-white italic tabular-nums">
+                {stat.value}
+              </p>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
 
-      {/* Main Grid: Recent Activity & Priority Leads */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Priority Leads Table */}
-        <div className="lg:col-span-2 space-y-8">
+        {/* Urgent Follow-ups Column */}
+        <div className="lg:col-span-1 space-y-6">
           <div className="flex items-center gap-4">
-            <h3 className="font-display text-2xl text-white italic">Incoming Lead Pipeline</h3>
-            <div className="h-[1px] flex-grow bg-gradient-to-r from-white/10 to-transparent" />
-            <Link href="/admin/leads" className="text-[10px] uppercase tracking-widest text-primary hover:text-white transition-colors">View All Pipeline</Link>
-          </div>
-
-          <div className="overflow-hidden border border-white/5 bg-surface/10 backdrop-blur-sm relative group">
-            {/* Table Glass Decoration */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            
-            <table className="w-full text-left relative z-10">
-              <thead>
-                <tr className="border-b border-white/5 bg-white/5">
-                  <th className="p-6 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Client / Event</th>
-                  <th className="p-6 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Inquiry Date</th>
-                  <th className="p-6 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Status</th>
-                  <th className="p-6"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {displayLeads.map((lead) => (
-                  <tr key={lead.id} className="group/row hover:bg-white/5 transition-colors">
-                    <td className="p-6">
-                      <div className="flex flex-col">
-                        <span className="text-white text-sm font-medium mb-1">{lead.full_name || 'Anonymous Client'}</span>
-                        <span className="text-primary text-[10px] uppercase tracking-widest italic">{lead.event_type}</span>
-                      </div>
-                    </td>
-                    <td className="p-6">
-                      <span className="text-on-surface-variant text-[10px] tracking-widest uppercase">
-                        {new Date(lead.created_at).toLocaleDateString()}
-                      </span>
-                    </td>
-                    <td className="p-6">
-                      <span className="text-[8px] uppercase tracking-widest px-3 py-1 border border-primary/20 text-primary bg-primary/5">
-                        {lead.status.replace('_', ' ')}
-                      </span>
-                    </td>
-                    <td className="p-6 text-right">
-                      <Link href={`/admin/leads/${lead.id}`} className="material-symbols-outlined text-white/20 group-hover/row:text-primary transition-colors text-xl">
-                        arrow_forward_ios
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Quick Actions / System Notifications */}
-        <div className="space-y-8">
-          <div className="flex items-center gap-4">
-            <h3 className="font-display text-2xl text-white italic">Executive Tasks</h3>
-            <div className="h-[1px] flex-grow bg-gradient-to-r from-white/10 to-transparent" />
+            <h2 className="font-display text-2xl text-white italic">Urgent Tasks</h2>
+            <div className="h-[1px] flex-grow bg-white/5" />
           </div>
 
           <div className="space-y-4">
-            {[
-              { title: "Artisan Verification", desc: "3 New applications in London", icon: "diamond", color: "text-primary" },
-              { title: "Booking Confirmation", desc: "Vittorio Veneto Gala pending", icon: "verified", color: "text-blue-400" },
-              { title: "Financial Audit", desc: "Month-end reconciliation due", icon: "account_balance", color: "text-amber-400" },
-            ].map((task, idx) => (
-              <div key={idx} className="bg-surface/30 border border-white/5 p-6 hover:bg-surface/50 transition-all group flex items-start gap-4">
-                <div className={`w-10 h-10 flex-shrink-0 flex items-center justify-center bg-white/5 border border-white/10 ${task.color}`}>
-                  <span className="material-symbols-outlined text-xl">{task.icon}</span>
+            {staleLeads.length > 0 ? (
+              staleLeads.slice(0, 4).map((lead) => (
+                <div 
+                  key={lead.id}
+                  className="p-6 bg-surface/30 border border-white/5 hover:bg-white/[0.05] transition-all rounded-none group"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 flex-shrink-0 bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
+                      <AlertCircle className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-1 group-hover:text-primary transition-colors">
+                        SLA Breach: {lead.full_name}
+                      </h4>
+                      <p className="text-[10px] text-on-surface-variant tracking-wide leading-relaxed">
+                        Inquiry received on {format(new Date(lead.created_at), 'MMM d')} has been pending for over 24 hours.
+                      </p>
+                      <div className="flex items-center gap-4 mt-4">
+                        <Link 
+                          href="/admin/leads"
+                          className="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/50 font-bold hover:text-primary transition-colors"
+                        >
+                          Details <ArrowRight className="w-3 h-3" />
+                        </Link>
+                        <StatusBadge 
+                          leadId={lead.id} 
+                          initialStatus={lead.status} 
+                          onStatusUpdate={fetchDashboardData}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-1 group-hover:text-primary transition-colors">{task.title}</h4>
-                  <p className="text-on-surface-variant text-[10px] tracking-wide">{task.desc}</p>
-                </div>
+              ))
+            ) : (
+              <div className="p-12 bg-surface/20 border border-dashed border-white/10 text-center">
+                <TrendingUp className="w-8 h-8 text-emerald-500/30 mx-auto mb-4" />
+                <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">All leads are current</p>
               </div>
-            ))}
+            )}
+          </div>
+        </div>
+
+        {/* Recent Pipeline Column */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="flex items-center gap-4">
+            <h2 className="font-display text-2xl text-white italic">Recent Activity</h2>
+            <div className="h-[1px] flex-grow bg-white/5" />
+            <Link href="/admin/leads" className="text-[9px] uppercase tracking-[0.2em] text-primary hover:text-white transition-colors font-bold">
+              View Database
+            </Link>
           </div>
 
-          {/* Quick CMS Link */}
-          <div className="p-8 bg-gradient-to-br from-primary/20 to-transparent border border-primary/10 relative overflow-hidden group">
-            <div className="relative z-10">
-               <h4 className="font-display text-xl text-white italic mb-4">Artisan Network CMS</h4>
-               <p className="text-on-surface-variant text-[10px] tracking-wide mb-6">Manage global venues and artisan partnerships directly from the portal.</p>
-               <Link href="/admin/artisans" className="inline-block px-6 py-3 bg-white text-black text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-primary transition-colors">
-                  Open CMS
-               </Link>
+          <div className="bg-surface/30 border border-white/5 overflow-hidden">
+            <div className="divide-y divide-white/5">
+              {inquiries.slice(0, 6).map((inquiry) => (
+                <div 
+                  key={inquiry.id}
+                  className="p-6 hover:bg-white/[0.03] transition-all group flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-none bg-white/5 border border-white/10 flex items-center justify-center font-display text-white text-lg italic group-hover:border-primary/30 transition-colors">
+                      {inquiry.full_name[0]}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-3 mb-1">
+                        <h4 className="text-white text-sm font-medium tracking-tight">
+                          {inquiry.full_name}
+                        </h4>
+                        <StatusBadge 
+                          leadId={inquiry.id} 
+                          initialStatus={inquiry.status} 
+                          onStatusUpdate={fetchDashboardData}
+                        />
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] text-on-surface-variant tracking-wide italic opacity-70">
+                        <span className="line-clamp-1">
+                          {inquiry.vision || "New inquiry received"}
+                        </span>
+                        {inquiry.location && (
+                          <span className="flex items-center gap-1 shrink-0 text-primary/60 border-l border-white/10 pl-2">
+                             <TrendingUp className="w-2.5 h-2.5" /> {inquiry.location}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">
+                      {format(new Date(inquiry.created_at), 'MMM d')}
+                    </p>
+                    <p className="text-[9px] text-primary/50 tracking-tighter uppercase flex items-center justify-end gap-2">
+                      {inquiry.event_type}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <span className="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/5 group-hover:text-primary/10 transition-colors">diamond</span>
+            {inquiries.length === 0 && (
+              <div className="p-20 text-center">
+                <History className="w-10 h-10 text-white/10 mx-auto mb-4" />
+                <p className="text-[10px] text-white/20 uppercase tracking-[0.3em] italic">No activity recorded</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

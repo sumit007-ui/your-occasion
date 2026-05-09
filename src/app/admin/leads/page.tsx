@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
+import { StatusBadge } from "@/components/admin/StatusBadge";
 
 export default async function LeadsManagement() {
   const supabase = await createClient();
@@ -36,12 +37,12 @@ export default async function LeadsManagement() {
 
       <div className="grid grid-cols-1 gap-1">
         {/* Table Header - for visual structure */}
-        <div className="hidden md:grid grid-cols-6 gap-4 p-8 border-b border-white/10 text-[8px] uppercase tracking-[0.4em] text-on-surface-variant font-bold">
-           <div className="col-span-2">Client Identity / Location</div>
-           <div>Event Archetype</div>
-           <div>Dossier Status</div>
-           <div>Est. Value</div>
-           <div className="text-right">Action</div>
+        <div className="hidden md:grid grid-cols-12 gap-4 p-8 border-b border-white/10 text-[8px] uppercase tracking-[0.4em] text-on-surface-variant font-bold">
+           <div className="col-span-3">Client Identity / Location</div>
+           <div className="col-span-3">Contact Coordinates</div>
+           <div className="col-span-2">Event Archetype</div>
+           <div className="col-span-2">Investment</div>
+           <div className="col-span-2 text-right">Action</div>
         </div>
 
         {!leads || leads.length === 0 ? (
@@ -52,16 +53,16 @@ export default async function LeadsManagement() {
         ) : (
           leads.map((lead) => (
             <div key={lead.id} className="group bg-surface/20 border border-white/5 hover:bg-surface/40 hover:border-primary/20 transition-all duration-500">
-               <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-center p-8">
+               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-8">
                   {/* Client Info */}
-                  <div className="col-span-2 flex items-center gap-6">
-                     <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-700">
+                  <div className="col-span-3 flex items-center gap-6">
+                     <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-700 shrink-0">
                         <span className="material-symbols-outlined text-xl italic font-display">
                            {lead.full_name ? lead.full_name[0] : 'U'}
                         </span>
                      </div>
-                     <div className="flex flex-col">
-                        <span className="text-white text-base font-medium mb-1 tracking-wide">{lead.full_name || 'Unidentified Client'}</span>
+                     <div className="flex flex-col overflow-hidden">
+                        <span className="text-white text-base font-medium mb-1 tracking-wide truncate">{lead.full_name || 'Unidentified Client'}</span>
                         <span className="text-on-surface-variant text-[10px] uppercase tracking-widest flex items-center gap-2">
                            <span className="material-symbols-outlined text-[12px]">location_on</span>
                            {lead.location || 'Location Undisclosed'}
@@ -69,38 +70,48 @@ export default async function LeadsManagement() {
                      </div>
                   </div>
 
+                  {/* Contact Info */}
+                  <div className="col-span-3 flex flex-col gap-1">
+                     <div className="flex items-center gap-2 text-on-surface-variant hover:text-white transition-colors">
+                        <span className="material-symbols-outlined text-[12px]">mail</span>
+                        <span className="text-[10px] tracking-wider truncate">{lead.email}</span>
+                     </div>
+                     <div className="flex items-center gap-2 text-on-surface-variant hover:text-white transition-colors">
+                        <span className="material-symbols-outlined text-[12px]">call</span>
+                        <span className="text-[10px] tracking-wider">{lead.phone}</span>
+                     </div>
+                  </div>
+
                   {/* Event Type */}
-                  <div className="flex flex-col">
-                     <span className="text-primary text-[10px] uppercase tracking-[0.3em] font-bold mb-1 italic">{lead.event_type}</span>
-                     <span className="text-on-surface-variant text-[8px] uppercase tracking-[0.2em]">{new Date(lead.event_date).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}</span>
+                  <div className="col-span-2 flex flex-col">
+                     <span className="text-primary text-[10px] uppercase tracking-[0.3em] font-bold mb-1 italic truncate">{lead.event_type}</span>
+                     <span className="text-on-surface-variant text-[8px] uppercase tracking-[0.2em]">{lead.event_date ? new Date(lead.event_date).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : 'TBD'}</span>
                   </div>
 
-                  {/* Status */}
-                  <div>
-                     <span className={`text-[8px] uppercase tracking-widest px-4 py-2 border ${
-                        lead.status === 'confirmed' ? 'border-green-500/20 text-green-400 bg-green-500/5' : 
-                        lead.status === 'pending' ? 'border-amber-500/20 text-amber-400 bg-amber-500/5' :
-                        'border-primary/20 text-primary bg-primary/5'
-                     }`}>
-                        {lead.status.replace('_', ' ')}
-                     </span>
-                  </div>
-
-                  {/* Est Value */}
-                  <div>
-                     <span className="text-white font-display text-xl">£--</span>
-                     <span className="text-on-surface-variant text-[8px] uppercase tracking-[0.2em] block">Quote Pending</span>
+                  {/* Investment / Budget */}
+                  <div className="col-span-2 flex flex-col">
+                     <span className="text-white text-xs font-bold tracking-widest mb-1">{lead.budget_range || 'TBD'}</span>
+                     <StatusBadge leadId={lead.id} initialStatus={lead.status} />
                   </div>
 
                   {/* Action */}
-                  <div className="flex justify-end gap-3">
-                     <button className="w-10 h-10 flex items-center justify-center border border-white/5 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all">
+                  <div className="col-span-2 flex justify-end gap-3">
+                     <a href={`mailto:${lead.email}`} className="w-10 h-10 flex items-center justify-center border border-white/5 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all">
                         <span className="material-symbols-outlined text-lg">mail</span>
-                     </button>
+                     </a>
                      <Link href={`/admin/leads/${lead.id}`} className="px-6 py-3 bg-white text-black text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-primary transition-colors">
                         Inspect
                      </Link>
                   </div>
+
+                  {/* Vision Preview - Optional: Only show on hover or in a separate row */}
+                  {lead.vision && (
+                    <div className="col-span-12 mt-4 pt-4 border-t border-white/5 opacity-40 group-hover:opacity-80 transition-opacity">
+                      <p className="text-[10px] italic font-light tracking-wide text-on-surface-variant line-clamp-1">
+                        &quot;{lead.vision}&quot;
+                      </p>
+                    </div>
+                  )}
                </div>
             </div>
           ))

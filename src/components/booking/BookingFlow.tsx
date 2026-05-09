@@ -22,6 +22,7 @@ export function BookingFlow() {
     phone: "",
     eventType: "",
     date: "",
+    location: "",
     guests: "",
     budget: "",
     vision: "",
@@ -57,6 +58,7 @@ export function BookingFlow() {
       phone: formData.phone,
       event_type: formData.eventType,
       event_date: formData.date,
+      location: formData.location,
       guest_count: parseInt(formData.guests) || 0,
       budget_range: formData.budget,
       vision: formData.vision,
@@ -165,6 +167,38 @@ export function BookingFlow() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
+                    <div className="flex justify-between items-end">
+                      <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Event Location</Label>
+                      <button 
+                        type="button"
+                        onClick={async () => {
+                          if ("geolocation" in navigator) {
+                            navigator.geolocation.getCurrentPosition(async (position) => {
+                              try {
+                                const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`);
+                                const data = await res.json();
+                                setFormData({ ...formData, location: `${data.city}, ${data.countryName}` });
+                                toast.success("Location detected: " + data.city);
+                              } catch (e) {
+                                toast.error("Could not resolve address");
+                              }
+                            });
+                          }
+                        }}
+                        className="text-[10px] text-primary hover:underline uppercase tracking-tighter"
+                      >
+                        Detect
+                      </button>
+                    </div>
+                    <Input 
+                      placeholder="City, Venue, or Remote"
+                      value={formData.location}
+                      onChange={(e) => setFormData({...formData, location: e.target.value})}
+                      required
+                      className="bg-black/20 border-white/10 focus-visible:ring-primary focus-visible:border-primary text-white font-light rounded-none h-12"
+                    />
+                  </div>
+                  <div className="space-y-2">
                     <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Anticipated Date</Label>
                     <Input 
                       type="date"
@@ -174,17 +208,17 @@ export function BookingFlow() {
                       className="bg-black/20 border-white/10 focus-visible:ring-primary focus-visible:border-primary text-white font-light rounded-none h-12"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Guest Count</Label>
-                    <Input 
-                      type="number"
-                      placeholder="e.g. 150"
-                      value={formData.guests}
-                      onChange={(e) => setFormData({...formData, guests: e.target.value})}
-                      required
-                      className="bg-black/20 border-white/10 focus-visible:ring-primary focus-visible:border-primary text-white font-light rounded-none h-12"
-                    />
-                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs uppercase tracking-widest text-on-surface-variant font-light">Guest Count</Label>
+                  <Input 
+                    type="number"
+                    placeholder="e.g. 150"
+                    value={formData.guests}
+                    onChange={(e) => setFormData({...formData, guests: e.target.value})}
+                    required
+                    className="bg-black/20 border-white/10 focus-visible:ring-primary focus-visible:border-primary text-white font-light rounded-none h-12"
+                  />
                 </div>
               </motion.div>
             )}
