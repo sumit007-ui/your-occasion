@@ -29,32 +29,36 @@ export default function ServicesPage() {
   ];
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-8 md:px-20 max-w-[1440px] mx-auto">
-      <header className="mb-24 text-center md:text-left">
-        <span className="text-primary text-xs uppercase tracking-[0.3em] font-semibold mb-4 block">The Collections</span>
-        <h1 className="font-display text-5xl md:text-7xl text-white italic max-w-4xl leading-[1.1]">
-          Bespoke Curations for <br /> <span className="not-italic text-primary font-bold">Life's Grandest Moments</span>
+    <main className="min-h-screen pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-20 max-w-[1440px] mx-auto">
+      <header className="mb-12 md:mb-24 text-center md:text-left">
+        <span className="text-primary text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mb-3 md:mb-4 block">The Collections</span>
+        <h1 className="font-display text-3xl sm:text-5xl md:text-7xl text-white italic max-w-4xl leading-[1.1]">
+          Bespoke Curations for{" "}
+          <span className="not-italic text-primary font-bold">Life&apos;s Grandest Moments</span>
         </h1>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-12">
         {services.map((service, idx) => (
-          <div key={idx} className="group relative overflow-hidden aspect-[16/9] border border-white/5">
-            <Image 
-              src={service.image} 
-              alt={service.title} 
+          <div key={idx} className="group relative overflow-hidden aspect-[4/3] md:aspect-[16/9] border border-white/5">
+            <Image
+              src={service.image}
+              alt={service.title}
               fill
               priority={idx === 0}
               className="object-cover transition-transform duration-1000 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 50vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-12 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10">
-              <span className="text-primary text-xs uppercase tracking-widest mb-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">{service.category}</span>
-              <h3 className="font-display text-3xl text-white mb-4">{service.title}</h3>
-              <p className="text-white/70 font-light text-sm max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200">
+            {/* Always-visible overlay on mobile, hover-triggered on desktop */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-6 md:p-12 z-10 md:transition-all md:duration-500 md:translate-y-4 md:group-hover:translate-y-0">
+              <span className="text-primary text-[10px] md:text-xs uppercase tracking-widest mb-1 md:mb-2 font-medium md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-700 md:delay-100">
+                {service.category}
+              </span>
+              <h3 className="font-display text-xl md:text-3xl text-white mb-2 md:mb-4">{service.title}</h3>
+              <p className="text-white/70 font-light text-xs md:text-sm max-w-md md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-700 md:delay-200 line-clamp-2 md:line-clamp-none">
                 {service.description}
               </p>
-              <button className="mt-8 flex items-center gap-2 text-primary text-xs uppercase tracking-widest group/btn opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300 cursor-pointer">
+              <button className="mt-4 md:mt-8 flex items-center gap-2 text-primary text-[10px] md:text-xs uppercase tracking-widest group/btn md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-700 md:delay-300 cursor-pointer w-fit">
                 Explore Curation
                 <span className="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">north_east</span>
               </button>

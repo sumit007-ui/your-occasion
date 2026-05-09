@@ -68,16 +68,37 @@ export function TopNavBar() {
               </span>
             </Link>
             
-            <button 
+            <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-primary hover:opacity-80 transition-opacity z-50"
+              whileTap={{ scale: 0.88 }}
+              transition={{ type: "spring", stiffness: 500, damping: 20 }}
+              className="md:hidden text-primary z-50 w-10 h-10 flex items-center justify-center"
             >
-              {isOpen ? (
-                <X className="w-8 h-8" />
-              ) : (
-                <span className="material-symbols-outlined text-4xl">menu</span>
-              )}
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                {isOpen ? (
+                  <motion.span
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <X className="w-7 h-7" />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="material-symbols-outlined text-4xl leading-none"
+                  >
+                    menu
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </nav>
       </header>
@@ -85,10 +106,11 @@ export function TopNavBar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[40] bg-[#0a0a0a] md:hidden flex flex-col pt-32 pb-12 px-10"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[40] bg-[#0a0a0a] md:hidden flex flex-col pt-28 pb-12 px-8"
           >
             {/* Background Decorative Text - Extremely subtle and elegant */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] pointer-events-none select-none w-full text-center">
@@ -97,21 +119,29 @@ export function TopNavBar() {
 
             <div className="flex flex-col h-full justify-between relative z-10">
               <div className="flex flex-col gap-10">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-primary/40 font-bold mb-4">Navigation</span>
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="text-[10px] uppercase tracking-[0.5em] text-primary/40 font-bold mb-2 block"
+                >
+                  Navigation
+                </motion.span>
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.15 + i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                    whileTap={{ x: 8 }}
                   >
                     <Link
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className="text-4xl font-display text-white hover:text-primary transition-all duration-500 italic tracking-tight flex items-baseline gap-4 group"
+                      className="text-[2.5rem] font-display text-white hover:text-primary transition-all duration-500 italic tracking-tight flex items-baseline gap-4 group py-1"
                     >
                       <span className="text-[9px] font-sans not-italic text-primary/30 group-hover:text-primary transition-colors tracking-widest">0{i + 1}</span>
-                      <span className="group-hover:translate-x-2 transition-transform duration-500">{link.name}</span>
+                      <span>{link.name}</span>
                     </Link>
                   </motion.div>
                 ))}
@@ -121,15 +151,22 @@ export function TopNavBar() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ delay: 0.45 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   <Link
                     href="/book"
                     onClick={() => setIsOpen(false)}
-                    className="w-full py-5 border border-primary/20 text-primary uppercase tracking-[0.5em] text-[10px] font-bold hover:bg-primary hover:text-black transition-all duration-700 flex items-center justify-center gap-3 bg-primary/5 group"
+                    className="w-full py-5 border border-primary/20 text-primary uppercase tracking-[0.5em] text-[10px] font-bold hover:bg-primary hover:text-black transition-all duration-700 flex items-center justify-center gap-3 bg-primary/5 active:bg-primary active:text-black"
                   >
                     <span>Start Inquiry</span>
-                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">north_east</span>
+                    <motion.span
+                      animate={{ x: [0, 4, 0], y: [0, -4, 0] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="material-symbols-outlined text-sm"
+                    >
+                      north_east
+                    </motion.span>
                   </Link>
                 </motion.div>
 

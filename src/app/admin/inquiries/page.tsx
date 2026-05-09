@@ -56,20 +56,32 @@ export default async function InquiriesManagement() {
             <div key={inquiry.id} className="group bg-surface/20 border border-white/5 hover:bg-surface/40 hover:border-primary/20 transition-all duration-500">
                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-8">
                   {/* Client Info */}
-                  <div className="col-span-3 flex items-center gap-6">
-                     <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-700 shrink-0">
-                        <span className="material-symbols-outlined text-xl italic font-display">
-                           {inquiry.full_name ? inquiry.full_name[0] : 'U'}
-                        </span>
-                     </div>
-                     <div className="flex flex-col overflow-hidden">
-                        <span className="text-white text-base font-medium mb-1 tracking-wide truncate">{inquiry.full_name || 'Unidentified Client'}</span>
-                        <span className="text-on-surface-variant text-[10px] uppercase tracking-widest flex items-center gap-2">
-                           <span className="material-symbols-outlined text-[12px]">location_on</span>
-                           {inquiry.location || 'Location Undisclosed'}
-                        </span>
-                     </div>
-                  </div>
+                   <div className="col-span-3 flex items-center gap-6">
+                      <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-700 shrink-0">
+                         <span className="material-symbols-outlined text-xl italic font-display">
+                            {inquiry.full_name ? inquiry.full_name[0] : 'U'}
+                         </span>
+                      </div>
+                      <div className="flex flex-col overflow-hidden">
+                         <span className="text-white text-base font-medium mb-1 tracking-wide truncate">{inquiry.full_name || 'Unidentified Client'}</span>
+                         <span className="text-on-surface-variant text-[10px] uppercase tracking-widest flex items-center gap-1.5 truncate">
+                            <span className="material-symbols-outlined text-[12px] shrink-0">location_on</span>
+                            <span className="truncate">{inquiry.location || 'Location Undisclosed'}</span>
+                         </span>
+                         {inquiry.location_lat && inquiry.location_lng && (
+                           <a
+                             href={`https://www.google.com/maps?q=${inquiry.location_lat},${inquiry.location_lng}`}
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="text-[9px] text-primary/50 hover:text-primary transition-colors mt-1 flex items-center gap-1"
+                             title="Open in Google Maps"
+                           >
+                             <span className="material-symbols-outlined text-[10px]">open_in_new</span>
+                             {Number(inquiry.location_lat).toFixed(5)}° N, {Number(inquiry.location_lng).toFixed(5)}° E
+                           </a>
+                         )}
+                      </div>
+                   </div>
 
                   {/* Contact Info */}
                   <div className="col-span-3 flex flex-col gap-1">

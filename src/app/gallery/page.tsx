@@ -36,12 +36,12 @@ export default function GalleryPage() {
   };
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-4 md:px-20 max-w-[1440px] mx-auto bg-background">
-      <header className="mb-24 text-center">
+    <main className="min-h-screen pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-20 max-w-[1440px] mx-auto bg-background">
+      <header className="mb-10 md:mb-24 text-center">
         <motion.span 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-primary text-xs uppercase tracking-[0.4em] font-semibold mb-4 block"
+          className="text-primary text-[10px] md:text-xs uppercase tracking-[0.4em] font-semibold mb-3 md:mb-4 block"
         >
           The Indian Collection
         </motion.span>
@@ -49,7 +49,7 @@ export default function GalleryPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="font-display text-5xl md:text-7xl text-white italic"
+          className="font-display text-3xl sm:text-5xl md:text-7xl text-white italic"
         >
           A Symphony of Moments
         </motion.h1>
@@ -68,12 +68,12 @@ export default function GalleryPage() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.05 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px] md:auto-rows-[350px]"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-[260px] sm:auto-rows-[300px] md:auto-rows-[350px]"
       >
         {images.map((img, idx) => (
           <motion.div 
             key={idx} 
-            variants={itemVariants}
+            variants={itemVariants as any}
             className={`relative group overflow-hidden border border-white/5 bg-surface ${img.span}`}
           >
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 flex flex-col items-center justify-center p-6 text-center">
