@@ -28,7 +28,7 @@ export default function AboutPage() {
           <div className="aspect-[4/5] bg-surface-container-low border border-white/5 overflow-hidden group relative">
             <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-50 z-10 pointer-events-none" />
             <Image 
-              src="/images/heritage_about.png" 
+              src="/images/heritage.png" 
               alt="Heritage Architecture" 
               fill
               priority

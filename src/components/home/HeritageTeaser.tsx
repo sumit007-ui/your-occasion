@@ -18,7 +18,7 @@ export function HeritageTeaser() {
         >
           <div className="relative h-[500px] md:h-[700px] w-full overflow-hidden rounded-sm">
             <Image
-              src="/images/heritage_palace.png"
+              src="/images/heritage.png"
               alt="Heritage Palace Event"
               fill
               className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"

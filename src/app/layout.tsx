@@ -38,7 +38,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${bodoni.variable} ${hanken.variable} antialiased bg-[#131313] text-[#e5e2e1] selection:bg-[#f2ca50] selection:text-[#3c2f00] overflow-x-hidden`}
+        className={`${bodoni.variable} ${hanken.variable} antialiased bg-[#131313] text-[#e5e2e1] selection:bg-[#f2ca50] selection:text-[#3c2f00] overflow-x-hidden relative`}
       >
         <SmoothScroll>
           <TopNavBar />

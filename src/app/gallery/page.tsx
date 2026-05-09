@@ -9,8 +9,8 @@ export default function GalleryPage() {
     { url: "/images/lake_palace.png", span: "md:col-span-1 md:row-span-1", title: "Island Venue" },
     { url: "/images/baraat.png", span: "md:col-span-1 md:row-span-1", title: "Grand Procession" },
     { url: "/images/couture_wedding.png", span: "md:col-span-1 md:row-span-1", title: "Bridal Couture" },
-    { url: "/images/corporate_gala.png", span: "md:col-span-1 md:row-span-1", title: "Heritage Gala" },
-    { url: "/images/artistic_showcase.png", span: "md:col-span-1 md:row-span-1", title: "Artistic Showcase" },
+    { url: "/images/gala.png", span: "md:col-span-1 md:row-span-1", title: "Heritage Gala" },
+    { url: "/images/showcase.png", span: "md:col-span-1 md:row-span-1", title: "Artistic Showcase" },
   ];
 
   return (

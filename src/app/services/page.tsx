@@ -11,19 +11,19 @@ export default function ServicesPage() {
     {
       title: "Heritage Galas",
       category: "Excellence",
-      image: "/images/corporate_gala.png",
+      image: "/images/jaipur_palace.png",
       description: "Sophisticated brand narratives brought to life through immersive environments in India's most iconic palaces."
     },
     {
       title: "Royal Banquets",
       category: "Intimacy",
-      image: "/images/private_dining.png",
+      image: "/images/royal_dining.png",
       description: "Michelin-starred excellence and traditional thali experiences in the comfort of your most private sanctuaries."
     },
     {
       title: "Artistic Showcases",
       category: "Culture",
-      image: "/images/artistic_showcase.png",
+      image: "/images/wedding_mandap.png",
       description: "Dynamic platforms for expression, curated with an eye for the avant-garde and traditional craftsmanship."
     }
   ];
@@ -44,6 +44,7 @@ export default function ServicesPage() {
               src={service.image} 
               alt={service.title} 
               fill
+              priority={idx === 0}
               className="object-cover transition-transform duration-1000 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
