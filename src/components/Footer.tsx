@@ -22,13 +22,13 @@ export function Footer() {
       {/* Decorative gradient */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-8 relative z-10">
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-4 relative z-10 text-center md:text-left">
         
         {/* Brand Column */}
-        <div className="md:col-span-5 flex flex-col justify-between">
-          <div>
+        <div className="md:col-span-4 flex flex-col justify-between items-center md:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <h2 className="font-display text-4xl text-primary italic mb-6">Your Occasion</h2>
-            <p className="text-on-surface-variant font-light leading-relaxed max-w-sm mb-12">
+            <p className="text-on-surface-variant font-light leading-relaxed max-w-sm mb-12 mx-auto md:mx-0">
               Architecting unforgettable moments. We curate bespoke experiences 
               for those who appreciate the extraordinary.
             </p>
@@ -48,9 +48,9 @@ export function Footer() {
         </div>
 
         {/* Links Columns */}
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 flex flex-col items-center md:items-start">
           <h4 className="text-xs uppercase tracking-widest text-on-surface mb-8 font-semibold">The Atelier</h4>
-          <ul className="space-y-4">
+          <ul className="space-y-4 flex flex-col items-center md:items-start">
             {[
               { name: 'Our Philosophy', href: '/about' },
               { name: 'Bespoke Process', href: '/services' },
@@ -58,7 +58,7 @@ export function Footer() {
               { name: 'Global Presence', href: '/about#locations' }
             ].map((item) => (
               <li key={item.name}>
-                <Link href={item.href} className="text-on-surface-variant hover:text-primary transition-colors duration-300 font-light text-sm flex items-center group">
+                <Link href={item.href} className="text-on-surface-variant hover:text-primary transition-colors duration-300 font-light text-sm flex items-center justify-center md:justify-start group">
                   {item.name}
                   <span className="material-symbols-outlined text-[10px] ml-1 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300">north_east</span>
                 </Link>
@@ -67,9 +67,9 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 flex flex-col items-center md:items-start">
           <h4 className="text-xs uppercase tracking-widest text-on-surface mb-8 font-semibold">Concierge</h4>
-          <ul className="space-y-4">
+          <ul className="space-y-4 flex flex-col items-center md:items-start">
             <li><Link href="/login" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">Sign In</Link></li>
             <li><Link href="/register" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">Join the Atelier</Link></li>
             <li><Link href="/dashboard" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">Private Office</Link></li>
@@ -77,14 +77,14 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 flex flex-col items-center md:items-start">
           <h4 className="text-xs uppercase tracking-widest text-on-surface mb-8 font-semibold">Contact</h4>
-          <ul className="space-y-4">
-            <li className="flex flex-col">
+          <ul className="space-y-4 flex flex-col items-center md:items-start">
+            <li className="flex flex-col items-center md:items-start">
               <span className="text-[10px] text-primary uppercase tracking-widest mb-1">WhatsApp</span>
               <Link href="https://wa.me/919915110524" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">+91 99151 10524</Link>
             </li>
-            <li className="flex flex-col">
+            <li className="flex flex-col items-center md:items-start">
               <span className="text-[10px] text-primary uppercase tracking-widest mb-1">Direct Line</span>
               <Link href="tel:+91797329328" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">+91 79732 9328</Link>
             </li>
@@ -92,7 +92,7 @@ export function Footer() {
         </div>
 
         {/* Newsletter Column */}
-        <div className="md:col-span-3">
+        <div className="md:col-span-2 flex flex-col items-center md:items-start">
            <h4 className="text-xs uppercase tracking-widest text-on-surface mb-8 font-semibold">The Registry</h4>
            <p className="text-on-surface-variant font-light text-sm mb-6">
              Subscribe for seasonal curations and exclusive event access.
