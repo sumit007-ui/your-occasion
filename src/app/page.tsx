@@ -5,6 +5,9 @@ import { CinematicHero } from "@/components/home/CinematicHero";
 const HeritageTeaser = dynamic(() => import("@/components/home/HeritageTeaser").then(mod => mod.HeritageTeaser), {
   loading: () => <div className="h-[600px] bg-background" />
 });
+const BrandMarquee = dynamic(() => import("@/components/home/BrandMarquee").then(mod => mod.BrandMarquee), {
+  loading: () => <div className="h-[200px] bg-background" />
+});
 const ServicesReel = dynamic(() => import("@/components/home/ServicesReel").then(mod => mod.ServicesReel), {
   loading: () => <div className="h-[600px] bg-background" />
 });
@@ -19,6 +22,7 @@ export default function Home() {
       <div className="flex flex-col w-full">
         <CinematicHero />
         <HeritageTeaser />
+        <BrandMarquee />
         <ServicesReel />
         <Testimonials />
       </div>

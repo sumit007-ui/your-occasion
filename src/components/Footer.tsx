@@ -77,6 +77,20 @@ export function Footer() {
           </ul>
         </div>
 
+        <div className="md:col-span-2">
+          <h4 className="text-xs uppercase tracking-widest text-on-surface mb-8 font-semibold">Contact</h4>
+          <ul className="space-y-4">
+            <li className="flex flex-col">
+              <span className="text-[10px] text-primary uppercase tracking-widest mb-1">WhatsApp</span>
+              <Link href="https://wa.me/919915110524" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">+91 99151 10524</Link>
+            </li>
+            <li className="flex flex-col">
+              <span className="text-[10px] text-primary uppercase tracking-widest mb-1">Direct Line</span>
+              <Link href="tel:+91797329328" className="text-on-surface-variant hover:text-primary transition-colors text-sm font-light">+91 79732 9328</Link>
+            </li>
+          </ul>
+        </div>
+
         {/* Newsletter Column */}
         <div className="md:col-span-3">
            <h4 className="text-xs uppercase tracking-widest text-on-surface mb-8 font-semibold">The Registry</h4>
@@ -114,9 +128,15 @@ export function Footer() {
       </div>
 
       <div className="max-w-[1440px] mx-auto mt-32 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
-        <p className="text-on-surface-variant/60 text-xs tracking-wider">
-          &copy; {new Date().getFullYear()} Your Occasion. All Rights Reserved.
-        </p>
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+          <p className="text-on-surface-variant/60 text-xs tracking-wider">
+            &copy; {new Date().getFullYear()} Your Occasion. All Rights Reserved.
+          </p>
+          <div className="h-4 w-[1px] bg-white/10 hidden md:block" />
+          <p className="text-on-surface-variant/40 text-[10px] tracking-[0.2em] uppercase font-medium">
+            Developed by <Link href="https://devnxy.vercel.app/" target="_blank" className="text-primary/60 hover:text-primary transition-colors">Devnxy</Link>
+          </p>
+        </div>
         <div className="flex gap-6">
           <Link href="/privacy" className="text-on-surface-variant/60 hover:text-on-surface text-xs tracking-wider transition-colors duration-300">Privacy</Link>
           <Link href="/terms" className="text-on-surface-variant/60 hover:text-on-surface text-xs tracking-wider transition-colors duration-300">Terms</Link>

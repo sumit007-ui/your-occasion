@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function GalleryPage() {
   const images = [
@@ -13,20 +16,64 @@ export default function GalleryPage() {
     { url: "/images/showcase.png", span: "md:col-span-1 md:row-span-1", title: "Artistic Showcase" },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
-    <main className="min-h-screen pt-32 pb-20 px-8 md:px-20 max-w-[1440px] mx-auto bg-background">
+    <main className="min-h-screen pt-32 pb-20 px-4 md:px-20 max-w-[1440px] mx-auto bg-background">
       <header className="mb-24 text-center">
-        <span className="text-primary text-xs uppercase tracking-[0.4em] font-semibold mb-4 block">The Indian Collection</span>
-        <h1 className="font-display text-5xl md:text-7xl text-white italic">A Symphony of Moments</h1>
-        <p className="mt-8 text-on-surface-variant font-light text-lg max-w-2xl mx-auto">
+        <motion.span 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-primary text-xs uppercase tracking-[0.4em] font-semibold mb-4 block"
+        >
+          The Indian Collection
+        </motion.span>
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="font-display text-5xl md:text-7xl text-white italic"
+        >
+          A Symphony of Moments
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 text-on-surface-variant font-light text-lg max-w-2xl mx-auto"
+        >
           A perfectly curated collection of our most evocative experiences. Heritage, grandeur, and cinematic celebration.
-        </p>
+        </motion.p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px] md:auto-rows-[350px]">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px] md:auto-rows-[350px]"
+      >
         {images.map((img, idx) => (
-          <div 
+          <motion.div 
             key={idx} 
+            variants={itemVariants}
             className={`relative group overflow-hidden border border-white/5 bg-surface ${img.span}`}
           >
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 flex flex-col items-center justify-center p-6 text-center">
@@ -41,15 +88,20 @@ export default function GalleryPage() {
               priority={img.priority}
               className="object-cover transition-transform duration-[2s] group-hover:scale-110 grayscale group-hover:grayscale-0"
             />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       
-      <div className="mt-20 text-center">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-20 text-center"
+      >
         <button className="border border-primary/30 px-12 py-4 text-[10px] uppercase tracking-[0.3em] text-primary hover:bg-primary hover:text-on-primary transition-all duration-700 cursor-pointer">
           Request Portfolio Access
         </button>
-      </div>
+      </motion.div>
     </main>
   );
 }

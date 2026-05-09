@@ -24,6 +24,8 @@ export const metadata = {
   description: "A complete full-stack modern luxury event management SaaS platform.",
 };
 
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,6 +47,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </SmoothScroll>
+        <FloatingWhatsApp />
         <Toaster theme="dark" position="top-center" />
       </body>
     </html>

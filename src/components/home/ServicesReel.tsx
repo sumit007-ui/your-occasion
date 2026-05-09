@@ -58,10 +58,10 @@ export function ServicesReel() {
           {services.map((service, index) => (
             <motion.div 
               key={index}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
               className="group relative cursor-pointer"
             >
               <div className="relative h-[600px] w-full overflow-hidden">
